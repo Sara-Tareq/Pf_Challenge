@@ -15,10 +15,23 @@ public class PfHelper {
 	private static final String PG_PARAM = "page=";
 	private static final String ORDER_PARAM = "&order=";
 
-	public static void getPropertiesList(MainView mainView, Context context,int pageNum ,String order) {
-		PfRequestHandler.getInstance(context).requestPropertiesList(getApiUrl(pageNum,order), getPropertiesListResponseHandler(mainView));
+	/**
+	 * requests the properties list
+	 *
+	 * @param mainView handles the view interactions
+	 * @param context  calling activity
+	 * @param pageNum  the page number to be requested
+	 * @param order    the sorting required for the properties list
+	 **/
+	public static void getPropertiesList(MainView mainView, Context context, int pageNum, String order) {
+		PfRequestHandler.getInstance(context).requestPropertiesList(getApiUrl(pageNum, order), getPropertiesListResponseHandler(mainView));
 	}
 
+	/**
+	 * provides the response handler
+	 *
+	 * @param mainView handles the view interactions
+	 */
 	private static ResponseHandler getPropertiesListResponseHandler(final MainView mainView) {
 		return new ResponseHandler() {
 			@Override
@@ -31,12 +44,18 @@ public class PfHelper {
 
 			@Override
 			public void onError(Exception e) {
-
+				mainView.showError();
 			}
 		};
 	}
 
-	private static String getApiUrl(int pageNum,String order) {
+	/**
+	 * generates the api url to be requested
+	 *
+	 * @param pageNum the page number to be requested
+	 * @param order   the sorting required for the properties list
+	 */
+	private static String getApiUrl(int pageNum, String order) {
 		Log.d("PF", "page num  :  " + pageNum);
 		String url = API_BASE_URL.concat(PG_PARAM).concat(String.valueOf(pageNum));
 		return order != null && !order.isEmpty() ? url.concat(ORDER_PARAM).concat(order) : url;

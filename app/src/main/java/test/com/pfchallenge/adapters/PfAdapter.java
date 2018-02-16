@@ -47,8 +47,9 @@ public class PfAdapter extends RecyclerView.Adapter<PfAdapter.PropertyViewHolder
 	}
 
 	public void updateListData(ArrayList<Property> newProperties){
+		int startIndex = properties == null || properties.isEmpty() ? 0 : properties.size();
 		properties.addAll(newProperties);
-		notifyDataSetChanged();
+		notifyItemRangeInserted(startIndex,newProperties.size());
 	}
 
 	public void clearData(){
