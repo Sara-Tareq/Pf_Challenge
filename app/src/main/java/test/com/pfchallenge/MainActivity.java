@@ -22,6 +22,12 @@ public class MainActivity extends AppCompatActivity implements MainView {
 		setContentView(R.layout.activity_main);
 
 		propertyList = findViewById(R.id.property_list);
+		propertyList.addOnScrollListener(new EndlessRecyclerOnScrollListener() {
+			@Override
+			public void onLoadMore() {
+				getPropertiesData();
+			}
+		});
 
 		getPropertiesData();
 
