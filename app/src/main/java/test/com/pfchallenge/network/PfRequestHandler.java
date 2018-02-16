@@ -10,9 +10,6 @@ import com.android.volley.toolbox.Volley;
 
 import test.com.pfchallenge.entities.PropertyFinder;
 
-/**
- * Created by Sara_R on 16/02/2018.
- */
 
 public class PfRequestHandler {
 
@@ -38,12 +35,13 @@ public class PfRequestHandler {
 		}
 	}
 
-	public void requestPropertiesList(String url,final ResponseHandler responseHandler){
+	public void requestPropertiesList(String url, final ResponseHandler responseHandler) {
 
 		GsonRequest<PropertyFinder> getPropertiesRequest = new GsonRequest<>(Request.Method.GET, url, PropertyFinder.class, new Response.Listener<PropertyFinder>() {
 			@Override
 			public void onResponse(PropertyFinder response) {
-				responseHandler.onSuccess(response);
+				if (response != null)
+					responseHandler.onSuccess(response);
 			}
 		}, new Response.ErrorListener() {
 			@Override
