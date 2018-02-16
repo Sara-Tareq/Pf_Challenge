@@ -5,7 +5,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
-import test.com.pfchallenge.MainView;
+import test.com.pfchallenge.activities.MainView;
 import test.com.pfchallenge.entities.Property;
 import test.com.pfchallenge.entities.PropertyFinder;
 
