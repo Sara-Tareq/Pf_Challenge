@@ -28,6 +28,11 @@ public class PfRequestHandler {
 		return pfRequestHandler;
 	}
 
+	/**
+	 * creates the request queue if required
+	 *
+	 * @param context used to create the queue
+	 */
 	private static void initRequestQueue(Context context) {
 
 		if (pfRequestQueue == null) {
@@ -35,6 +40,12 @@ public class PfRequestHandler {
 		}
 	}
 
+	/**
+	 * request the properties list
+	 *
+	 * @param url             url to be requested
+	 * @param responseHandler handles the request response
+	 **/
 	public void requestPropertiesList(String url, final ResponseHandler responseHandler) {
 
 		GsonRequest<PropertyFinder> getPropertiesRequest = new GsonRequest<>(Request.Method.GET, url, PropertyFinder.class, new Response.Listener<PropertyFinder>() {

@@ -60,18 +60,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
 		}
 	}
 
-	private void restoreListState(Bundle savedState) {
-		pageNum = savedState.getInt("pageNum", 0);
-		selectedOrder = savedState.getString("selectedOrder", "");
-		ArrayList<Property> properties = savedState.getParcelableArrayList("listData");
-		if (properties != null && !properties.isEmpty()) {
-			loadData = false;
-			initPropertiesListView(properties);
-			if (savedState.getParcelable("listState") != null)
-				propertyList.getLayoutManager().onRestoreInstanceState(savedState.getParcelable("listState"));
-		}
-	}
-
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -86,6 +74,40 @@ public class MainActivity extends AppCompatActivity implements MainView {
 		super.onResume();
 		if (loadData)
 			getPropertiesData();
+	}
+
+	/**
+	 * setting the layout manager and the adapter to recyclerview
+	 * @param properties list of properties to be shown
+	 * **/
+	private void initPropertiesListView(ArrayList<Property> properties) {
+		hideProgress();
+		propertyList.setLayoutManager(new LinearLayoutManager(this));
+		propertyList.setAdapter(new PfAdapter(properties, this));
+	}
+
+	/**
+	 * clearing the recyclerview to show the new requested data
+	 * */
+	private void clearView() {
+		loadData = true;
+		pageNum = 0;
+		showProgress();
+		((PfAdapter) propertyList.getAdapter()).clearData();
+	}
+
+	private void restoreListState(Bundle savedState) {
+		pageNum = savedState.getInt("pageNum", 0);
+		selectedOrder = savedState.getString("selectedOrder", "");
+		ArrayList<Property> properties = savedState.getParcelableArrayList("listData");
+		if (properties != null && !properties.isEmpty()) {
+			loadData = false;
+			initPropertiesListView(properties);
+			if (savedState.getParcelable("listState") != null)
+				propertyList.getLayoutManager().onRestoreInstanceState(savedState.getParcelable("listState"));
+		}else{
+			loadData = true;
+		}
 	}
 
 	@Override
@@ -104,19 +126,9 @@ public class MainActivity extends AppCompatActivity implements MainView {
 		return super.onOptionsItemSelected(item);
 	}
 
-	private void initPropertiesListView(ArrayList<Property> properties) {
-		hideProgress();
-		propertyList.setLayoutManager(new LinearLayoutManager(this));
-		propertyList.setAdapter(new PfAdapter(properties, this));
-	}
-
-	private void clearView() {
-		loadData = true;
-		pageNum = 0;
-		showProgress();
-		((PfAdapter) propertyList.getAdapter()).clearData();
-	}
-
+	/**
+	 * requesting the new set of properties list
+	 */
 	private void getPropertiesData() {
 		PfHelper.getPropertiesList(this, this, pageNum, selectedOrder);
 	}
@@ -135,7 +147,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
 	@Override
 	public void updateList(ArrayList<Property> properties) {
-
 		if (propertyList != null) {
 			pageNum++;
 			if (propertyList.getAdapter() == null) {
@@ -145,5 +156,10 @@ public class MainActivity extends AppCompatActivity implements MainView {
 				((PfAdapter) propertyList.getAdapter()).updateListData(properties);
 			}
 		}
+	}
+
+	@Override
+	public void showError() {
+
 	}
 }
