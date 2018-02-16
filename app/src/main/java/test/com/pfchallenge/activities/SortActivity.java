@@ -20,6 +20,13 @@ public class SortActivity extends AppCompatActivity implements View.OnClickListe
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.sort_activity);
 		setUpView();
+		selectedOrder = savedInstanceState != null ? savedInstanceState.getString("selectedOrder","") : "";
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putString("selectedOrder",selectedOrder);
 	}
 
 	private void setUpView() {

@@ -13,7 +13,6 @@ import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 
-import test.com.pfchallenge.MainView;
 import test.com.pfchallenge.R;
 import test.com.pfchallenge.adapters.PfAdapter;
 import test.com.pfchallenge.custom.EndlessRecyclerOnScrollListener;
@@ -26,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
 	private ProgressBar progressBar;
 	private String selectedOrder;
 	private int pageNum = 0;
+	private boolean loadData;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +42,34 @@ public class MainActivity extends AppCompatActivity implements MainView {
 			}
 		});
 
+		if (savedInstanceState != null) {
+			restoreListState(savedInstanceState);
+		} else {
+			loadData = true;
+		}
+	}
 
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putInt("pageNum", pageNum);
+		outState.putString("selectedOrder", selectedOrder);
+		if (propertyList != null && propertyList.getAdapter() != null) {
+			outState.putParcelableArrayList("listData", ((PfAdapter) propertyList.getAdapter()).getProperties());
+			outState.putParcelable("listState", propertyList.getLayoutManager().onSaveInstanceState());
+		}
+	}
+
+	private void restoreListState(Bundle savedState) {
+		pageNum = savedState.getInt("pageNum", 0);
+		selectedOrder = savedState.getString("selectedOrder", "");
+		ArrayList<Property> properties = savedState.getParcelableArrayList("listData");
+		if (properties != null && !properties.isEmpty()) {
+			loadData = false;
+			initPropertiesListView(properties);
+			if (savedState.getParcelable("listState") != null)
+				propertyList.getLayoutManager().onRestoreInstanceState(savedState.getParcelable("listState"));
+		}
 	}
 
 	@Override
@@ -57,7 +84,8 @@ public class MainActivity extends AppCompatActivity implements MainView {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		getPropertiesData();
+		if (loadData)
+			getPropertiesData();
 	}
 
 	@Override
@@ -76,7 +104,14 @@ public class MainActivity extends AppCompatActivity implements MainView {
 		return super.onOptionsItemSelected(item);
 	}
 
+	private void initPropertiesListView(ArrayList<Property> properties) {
+		hideProgress();
+		propertyList.setLayoutManager(new LinearLayoutManager(this));
+		propertyList.setAdapter(new PfAdapter(properties, this));
+	}
+
 	private void clearView() {
+		loadData = true;
 		pageNum = 0;
 		showProgress();
 		((PfAdapter) propertyList.getAdapter()).clearData();
@@ -103,11 +138,10 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
 		if (propertyList != null) {
 			pageNum++;
-			hideProgress();
 			if (propertyList.getAdapter() == null) {
-				propertyList.setLayoutManager(new LinearLayoutManager(this));
-				propertyList.setAdapter(new PfAdapter(properties, this));
+				initPropertiesListView(properties);
 			} else {
+				hideProgress();
 				((PfAdapter) propertyList.getAdapter()).updateListData(properties);
 			}
 		}

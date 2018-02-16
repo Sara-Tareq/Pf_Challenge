@@ -31,7 +31,7 @@
         android:layout_marginBottom="1dp"
         android:layout_weight="1"
         android:background="@drawable/btn_selector"
-        android:text="Beds Ascending"
+        android:text="Beds Descending"
         android:textColor="@color/btn_text_selector"/>
     <Button
         android:id="@+id/ba_button"

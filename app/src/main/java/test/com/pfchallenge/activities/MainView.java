@@ -1,4 +1,4 @@
-package test.com.pfchallenge;
+package test.com.pfchallenge.activities;
 
 import java.util.ArrayList;
 
