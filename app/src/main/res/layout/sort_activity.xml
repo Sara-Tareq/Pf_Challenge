@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@android:color/black"
+              android:orientation="vertical">
+
+    <Button
+        android:id="@+id/pd_button"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="1dp"
+        android:layout_weight="1"
+        android:background="@drawable/btn_selector"
+        android:text="Price Descending"
+        android:textColor="@color/btn_text_selector"/>
+    <Button
+        android:id="@+id/pa_button"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="1dp"
+        android:layout_weight="1"
+        android:background="@drawable/btn_selector"
+        android:text="Price Ascending"
+        android:textColor="@color/btn_text_selector"/>
+
+    <Button
+        android:id="@+id/bd_button"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="1dp"
+        android:layout_weight="1"
+        android:background="@drawable/btn_selector"
+        android:text="Beds Ascending"
+        android:textColor="@color/btn_text_selector"/>
+    <Button
+        android:id="@+id/ba_button"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="1dp"
+        android:layout_weight="1"
+        android:background="@drawable/btn_selector"
+        android:text="Beds Ascending"
+        android:textColor="@color/btn_text_selector"/>
+</LinearLayout>

@@ -15,9 +15,6 @@ import java.util.ArrayList;
 import test.com.pfchallenge.R;
 import test.com.pfchallenge.entities.Property;
 
-/**
- * Created by Sara_R on 16/02/2018.
- */
 
 public class PfAdapter extends RecyclerView.Adapter<PfAdapter.PropertyViewHolder> {
 
@@ -54,9 +51,18 @@ public class PfAdapter extends RecyclerView.Adapter<PfAdapter.PropertyViewHolder
 		notifyDataSetChanged();
 	}
 
+	public void clearData(){
+		properties.clear();
+		notifyDataSetChanged();
+	}
+
 	@Override
 	public int getItemCount() {
 		return properties != null ? properties.size() : 0;
+	}
+
+	public ArrayList<Property> getProperties() {
+		return properties;
 	}
 
 	class PropertyViewHolder extends RecyclerView.ViewHolder {

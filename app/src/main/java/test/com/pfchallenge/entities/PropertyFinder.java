@@ -1,14 +1,13 @@
 package test.com.pfchallenge.entities;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-/**
- * Created by Sara_R on 16/02/2018.
- */
-
-public class PropertyFinder {
+public class PropertyFinder implements Parcelable {
 
 	private int total;
 	@SerializedName("res")
@@ -24,4 +23,32 @@ public class PropertyFinder {
 	public ArrayList<Property> getProperties() {
 		return properties;
 	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeInt(this.total);
+		dest.writeTypedList(this.properties);
+	}
+
+	protected PropertyFinder(Parcel in) {
+		this.total = in.readInt();
+		this.properties = in.createTypedArrayList(Property.CREATOR);
+	}
+
+	public static final Parcelable.Creator<PropertyFinder> CREATOR = new Parcelable.Creator<PropertyFinder>() {
+		@Override
+		public PropertyFinder createFromParcel(Parcel source) {
+			return new PropertyFinder(source);
+		}
+
+		@Override
+		public PropertyFinder[] newArray(int size) {
+			return new PropertyFinder[size];
+		}
+	};
 }
