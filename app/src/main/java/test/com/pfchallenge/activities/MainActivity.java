@@ -9,6 +9,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import java.util.ArrayList;
@@ -23,6 +25,8 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
 	private RecyclerView propertyList;
 	private ProgressBar progressBar;
+	private Button tryAgain;
+	private LinearLayout errorLayout;
 	private String selectedOrder;
 	private int pageNum = 0;
 	private boolean loadData;
@@ -38,6 +42,15 @@ public class MainActivity extends AppCompatActivity implements MainView {
 		propertyList.addOnScrollListener(new EndlessRecyclerOnScrollListener() {
 			@Override
 			public void onLoadMore() {
+				getPropertiesData();
+			}
+		});
+		errorLayout = findViewById(R.id.error_layout);
+		tryAgain = findViewById(R.id.try_again);
+		tryAgain.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				showProgress();
 				getPropertiesData();
 			}
 		});
@@ -78,8 +91,9 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
 	/**
 	 * setting the layout manager and the adapter to recyclerview
+	 *
 	 * @param properties list of properties to be shown
-	 * **/
+	 **/
 	private void initPropertiesListView(ArrayList<Property> properties) {
 		hideProgress();
 		propertyList.setLayoutManager(new LinearLayoutManager(this));
@@ -88,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
 	/**
 	 * clearing the recyclerview to show the new requested data
-	 * */
+	 */
 	private void clearView() {
 		loadData = true;
 		pageNum = 0;
@@ -105,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
 			initPropertiesListView(properties);
 			if (savedState.getParcelable("listState") != null)
 				propertyList.getLayoutManager().onRestoreInstanceState(savedState.getParcelable("listState"));
-		}else{
+		} else {
 			loadData = true;
 		}
 	}
@@ -135,12 +149,14 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
 	@Override
 	public void showProgress() {
+		errorLayout.setVisibility(View.GONE);
 		propertyList.setVisibility(View.GONE);
 		progressBar.setVisibility(View.VISIBLE);
 	}
 
 	@Override
 	public void hideProgress() {
+		errorLayout.setVisibility(View.GONE);
 		propertyList.setVisibility(View.VISIBLE);
 		progressBar.setVisibility(View.GONE);
 	}
@@ -160,6 +176,9 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
 	@Override
 	public void showError() {
+		errorLayout.setVisibility(View.VISIBLE);
+		propertyList.setVisibility(View.GONE);
+		progressBar.setVisibility(View.GONE);
 
 	}
 }
