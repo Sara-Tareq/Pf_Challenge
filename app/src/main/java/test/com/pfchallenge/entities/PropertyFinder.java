@@ -13,4 +13,15 @@ public class PropertyFinder {
 	private int total;
 	@SerializedName("res")
 	private ArrayList<Property> properties;
+
+	public PropertyFinder() {
+	}
+
+	public int getTotal() {
+		return total;
+	}
+
+	public ArrayList<Property> getProperties() {
+		return properties;
+	}
 }

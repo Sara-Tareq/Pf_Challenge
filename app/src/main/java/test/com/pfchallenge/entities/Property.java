@@ -1,5 +1,7 @@
 package test.com.pfchallenge.entities;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Property {
 
 	private int id;
@@ -7,6 +9,8 @@ public class Property {
 	private String currency;
 	private int bathrooms;
 	private int bedrooms;
+	@SerializedName("thumbnail_big")
+	private String image;
 
 	public Property() {
 	}
@@ -15,19 +19,19 @@ public class Property {
 		return id;
 	}
 
-	public String getPrice() {
-		return price;
+	public String getImage() {
+		return image;
 	}
 
-	public String getCurrency() {
-		return currency;
+	public String getPropertyPrice() {
+		return price.concat(" ").concat(currency);
 	}
 
-	public int getBathrooms() {
-		return bathrooms;
+	public String getPropertyBathrooms() {
+		return String.valueOf(bathrooms).concat(" Bathrooms");
 	}
 
-	public int getBedrooms() {
-		return bedrooms;
+	public String getPropertyBedrooms() {
+		return String.valueOf(bedrooms).concat(" Bedrooms");
 	}
 }
