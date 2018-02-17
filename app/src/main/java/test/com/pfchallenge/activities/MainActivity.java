@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
 	private Button tryAgain;
 	private LinearLayout errorLayout;
 	private String selectedOrder;
-	private int pageNum = 0;
+	private int pageNum = 0, totalPageNum = 0;
 	private boolean loadData;
 
 	@Override
@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putInt("pageNum", pageNum);
+		outState.putInt("totalPageNum", totalPageNum);
 		outState.putString("selectedOrder", selectedOrder);
 		if (propertyList != null && propertyList.getAdapter() != null) {
 			outState.putParcelableArrayList("listData", ((PfAdapter) propertyList.getAdapter()).getProperties());
@@ -106,12 +107,14 @@ public class MainActivity extends AppCompatActivity implements MainView {
 	private void clearView() {
 		loadData = true;
 		pageNum = 0;
+		totalPageNum = 0;
 		showProgress();
 		((PfAdapter) propertyList.getAdapter()).clearData();
 	}
 
 	private void restoreListState(Bundle savedState) {
 		pageNum = savedState.getInt("pageNum", 0);
+		totalPageNum = savedState.getInt("totalPageNum", 0);
 		selectedOrder = savedState.getString("selectedOrder", "");
 		ArrayList<Property> properties = savedState.getParcelableArrayList("listData");
 		if (properties != null && !properties.isEmpty()) {
@@ -144,7 +147,8 @@ public class MainActivity extends AppCompatActivity implements MainView {
 	 * requesting the new set of properties list
 	 */
 	private void getPropertiesData() {
-		PfHelper.getPropertiesList(this, this, pageNum, selectedOrder);
+		if (pageNum <= totalPageNum)
+			PfHelper.getPropertiesList(this, this, pageNum, selectedOrder);
 	}
 
 	@Override
@@ -162,8 +166,9 @@ public class MainActivity extends AppCompatActivity implements MainView {
 	}
 
 	@Override
-	public void updateList(ArrayList<Property> properties) {
+	public void updateList(ArrayList<Property> properties, int totalItemsCount) {
 		if (propertyList != null) {
+			totalPageNum = (int) ((float) totalItemsCount / (float) properties.size());
 			pageNum++;
 			if (propertyList.getAdapter() == null) {
 				initPropertiesListView(properties);
