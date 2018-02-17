@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
 	private ProgressBar progressBar;
 	private LinearLayout errorLayout;
 	private String selectedOrder;
+	private EndlessRecyclerOnScrollListener endlessRecyclerOnScrollListener;
 	private int pageNum = 0, totalPageNum = 0;
 	private boolean loadData;
 
@@ -38,12 +39,13 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
 		progressBar = findViewById(R.id.progress);
 		propertyList = findViewById(R.id.property_list);
-		propertyList.addOnScrollListener(new EndlessRecyclerOnScrollListener() {
+		endlessRecyclerOnScrollListener = new EndlessRecyclerOnScrollListener() {
 			@Override
 			public void onLoadMore() {
 				getPropertiesData();
 			}
-		});
+		};
+		propertyList.addOnScrollListener(endlessRecyclerOnScrollListener);
 		errorLayout = findViewById(R.id.error_layout);
 		Button tryAgain = findViewById(R.id.try_again);
 		tryAgain.setOnClickListener(new View.OnClickListener() {
@@ -108,7 +110,8 @@ public class MainActivity extends AppCompatActivity implements MainView {
 		pageNum = 0;
 		totalPageNum = 0;
 		showProgress();
-		((PfAdapter) propertyList.getAdapter()).clearData();
+		endlessRecyclerOnScrollListener.clear();
+		propertyList.setAdapter(null);
 	}
 
 	private void restoreListState(Bundle savedState) {
