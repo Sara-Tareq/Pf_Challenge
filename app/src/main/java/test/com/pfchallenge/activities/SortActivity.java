@@ -59,4 +59,8 @@ public class SortActivity extends AppCompatActivity implements View.OnClickListe
 		setResult(RESULT_OK, resultIntent);
 		super.onBackPressed();
 	}
+
+	public String getSelectedOrder() {
+		return selectedOrder;
+	}
 }
