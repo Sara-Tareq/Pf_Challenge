@@ -38,7 +38,7 @@ public class PfHelper {
 			public void onSuccess(Object response) {
 				ArrayList<Property> properties = ((PropertyFinder) response).getProperties();
 				if (properties != null && !properties.isEmpty()) {
-					mainView.updateList(properties);
+					mainView.updateList(properties,((PropertyFinder) response).getTotal());
 				}
 			}
 
@@ -56,7 +56,6 @@ public class PfHelper {
 	 * @param order   the sorting required for the properties list
 	 */
 	private static String getApiUrl(int pageNum, String order) {
-		Log.d("PF", "page num  :  " + pageNum);
 		String url = API_BASE_URL.concat(PG_PARAM).concat(String.valueOf(pageNum));
 		return order != null && !order.isEmpty() ? url.concat(ORDER_PARAM).concat(order) : url;
 	}

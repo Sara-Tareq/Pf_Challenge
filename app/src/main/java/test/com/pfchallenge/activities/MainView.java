@@ -8,6 +8,6 @@ public interface MainView {
 
 	void showProgress();
 	void hideProgress();
-	void updateList(ArrayList<Property> properties);
+	void updateList(ArrayList<Property> properties,int totalItemsCount);
 	void showError();
 }
