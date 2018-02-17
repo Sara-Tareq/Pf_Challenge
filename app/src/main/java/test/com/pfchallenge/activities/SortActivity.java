@@ -5,14 +5,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 
 import test.com.pfchallenge.R;
 
 
 public class SortActivity extends AppCompatActivity implements View.OnClickListener {
 
-	private Button pdButton, paButton, bdButton, baButton;
 	private String selectedOrder;
 
 	@Override
@@ -20,27 +18,20 @@ public class SortActivity extends AppCompatActivity implements View.OnClickListe
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.sort_activity);
 		setUpView();
-		selectedOrder = savedInstanceState != null ? savedInstanceState.getString("selectedOrder","") : "";
+		selectedOrder = savedInstanceState != null ? savedInstanceState.getString("selectedOrder", "") : "";
 	}
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		outState.putString("selectedOrder",selectedOrder);
+		outState.putString("selectedOrder", selectedOrder);
 	}
 
 	private void setUpView() {
-		pdButton = findViewById(R.id.pd_button);
-		pdButton.setOnClickListener(this);
-
-		paButton = findViewById(R.id.pa_button);
-		paButton.setOnClickListener(this);
-
-		bdButton = findViewById(R.id.bd_button);
-		bdButton.setOnClickListener(this);
-
-		baButton = findViewById(R.id.ba_button);
-		baButton.setOnClickListener(this);
+		findViewById(R.id.pd_button).setOnClickListener(this);
+		findViewById(R.id.pa_button).setOnClickListener(this);
+		findViewById(R.id.bd_button).setOnClickListener(this);
+		findViewById(R.id.ba_button).setOnClickListener(this);
 	}
 
 	@Override
