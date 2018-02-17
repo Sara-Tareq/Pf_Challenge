@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
 	private RecyclerView propertyList;
 	private ProgressBar progressBar;
-	private Button tryAgain;
 	private LinearLayout errorLayout;
 	private String selectedOrder;
 	private int pageNum = 0, totalPageNum = 0;
@@ -46,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
 			}
 		});
 		errorLayout = findViewById(R.id.error_layout);
-		tryAgain = findViewById(R.id.try_again);
+		Button tryAgain = findViewById(R.id.try_again);
 		tryAgain.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {

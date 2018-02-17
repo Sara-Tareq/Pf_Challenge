@@ -18,8 +18,8 @@ import test.com.pfchallenge.entities.Property;
 
 public class PfAdapter extends RecyclerView.Adapter<PfAdapter.PropertyViewHolder> {
 
-	ArrayList<Property> properties;
-	Context context;
+	private ArrayList<Property> properties;
+	private Context context;
 
 	public PfAdapter(ArrayList<Property> properties, Context context) {
 		this.properties = properties;
@@ -46,13 +46,18 @@ public class PfAdapter extends RecyclerView.Adapter<PfAdapter.PropertyViewHolder
 
 	}
 
-	public void updateListData(ArrayList<Property> newProperties){
+	public void updateListData(ArrayList<Property> newProperties) {
 		int startIndex = properties == null || properties.isEmpty() ? 0 : properties.size();
-		properties.addAll(newProperties);
-		notifyItemRangeInserted(startIndex,newProperties.size());
+		if (properties != null)
+			properties.addAll(newProperties);
+		else {
+			properties = new ArrayList<>();
+			properties.addAll(newProperties);
+		}
+		notifyItemRangeInserted(startIndex, newProperties.size());
 	}
 
-	public void clearData(){
+	public void clearData() {
 		properties.clear();
 		notifyDataSetChanged();
 	}
@@ -71,7 +76,7 @@ public class PfAdapter extends RecyclerView.Adapter<PfAdapter.PropertyViewHolder
 		ImageView propertyImage;
 		TextView propertyPrice, propertyBathrooms, propertyBedrooms;
 
-		public PropertyViewHolder(View itemView) {
+		PropertyViewHolder(View itemView) {
 			super(itemView);
 
 			propertyImage = itemView.findViewById(R.id.property_img);
