@@ -18,6 +18,13 @@ public class Property implements Parcelable {
 	public Property() {
 	}
 
+	public Property(String price, String currency, int bathrooms, int bedrooms) {
+		this.price = price;
+		this.currency = currency;
+		this.bathrooms = bathrooms;
+		this.bedrooms = bedrooms;
+	}
+
 	public int getId() {
 		return id;
 	}
